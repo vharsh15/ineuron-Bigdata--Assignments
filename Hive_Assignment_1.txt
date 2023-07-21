@@ -1,0 +1,23 @@
+Perform below menioned queries on "sales_order_orc" table :
+
+Q-a. Calculatye total sales per year?
+Ans- select year_id, sum(sales) as total_sales from sales_order_orc group by year_id; 
+
+Q-b. Find a product for which maximum orders were placed?
+Ans- select productline, max(quantityordered) from sales_order_orc group by productline order by max(quantityordered) desc limit 1;
+
+Q-c. Calculate the total sales for each quarter?
+Ans- select year_id, qtr_id, sum(sales) from sales_order_orc group by year_id, qtr_id order by year_id, qtr_id;
+
+Q-d. In which quarter sales was minimum?
+Ans- select year_id, qtr_id, min(sales) from sales_order_orc group by year_id, qtr_id order by year_id, qtr_id;
+
+Q-e. In which country sales was maximum and in which country sales was minimum?
+Ans- select country, max(sales), min(sales) from sales_order_orc group by country order by country;
+
+Q-f. Calculate quartelry sales for each city?
+Ans- select city, qtr_id, sum(sales) from sales_order_orc group by city, qtr_id order by year_id, qtr_id;
+
+Q-h. Find a month for each year in which maximum number of quantities were sold?
+Ans- select month_id, year_id from sales_order_orc where quantityordered = (select max(quantityordered) from sales_order_orc group by year_id limit 1);
+

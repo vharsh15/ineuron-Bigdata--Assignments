@@ -1,0 +1,24 @@
+All the link below are the charts which has star/snowflake design schemas from lucidcharts.com so please copy and paste to your respective browser for evaluation. 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q-1 Design a Data Warehouse for IPL Cricket Tournament (Asked in Flipkart Interview for Senior Data Engineer role)?
+Ans-Please copy this link such that is can run into browser to examine ---> (https://lucid.app/documents/view/94d55a22-30b6-431f-b987-c06b2a4dfe58)
+
+
+Q-2 Design a Data Warehouse for Food delivery app like Swiggy, Zomato (Asked in Grab for Data Engineer role)?
+Ans-Please copy this link such that is can run into browser to examine ---> (https://lucid.app/documents/view/33091559-cba9-4e33-8ff7-5c686125c35f)
+
+
+Q-3  Design a Data Warehouse for cab ride service like Uber, Lyft (Asked in Google for DataEngineer role)?
+Ans- Please copy this link such that is can run into browser to examine ---> (https://lucid.app/documents/view/5fde7999-182b-49e3-86bc-1d334ef7cbd1)
+
+
+Q-4 Design a Data Warehouse for Restaurent table booking app like Dineout (Asked inMcKinsey for Consultant Data Engineer role)?
+Ans-Please copy this link such that is can run into browser to examine ---> (https://lucid.app/documents/embedded/f71098b8-079d-43ad-802c-cf592814f564?invitationId=inv_52ae9cd2-325f-4f5f-a753-a49e0a428f96#)
+
+
+Q-5 Design a Data Warehouse for Covid Vaccination Application (Asked in Livsapce for Data Engineer role)?
+Ans-Please copy this link such that it can run into browser to examine---> (https://lucid.app/documents/embedded/375df466-ed69-4f5b-b5df-13ff4c6f5f26?invitationId=inv_d405f29f-a526-4150-bf65-58616ffa70ff#)
+
+
+-------------------------------------------------------------------------- The End --------------------------------------------------------------------------------------

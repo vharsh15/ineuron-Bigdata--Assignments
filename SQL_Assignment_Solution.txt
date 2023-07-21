@@ -1,0 +1,214 @@
+All SQL Queries Answers down below.
+
+Ans - 1 ---> select * from city_table where countrycode = "USA" and population > 100000
+Ans - 2 ---> select name from city_table where countrycode = "USA" and population > 120000
+Ans - 3 ---> select * from city_table
+Ans - 4 ---> select * from city_table where id  = 1661
+Ans - 5 ---> select * from city_table where countrycode = "JPN"
+Ans - 6 ---> select name from city_table where countrycode = "JPN"
+Ans - 7 ---> select city, state from station_table
+Ans - 8 ---> select distinct city, id from station_table where mod(id,2) = 0
+Ans - 9 ---> total_records = select count(city) from station_table
+             total_unique_records = select count(distinct city) from station_table
+             differece = total_records-total_unique_records
+Ans -10 ---> select top 1 city, len(city) from station order by len(city) ASC, city ASC; 
+             select top 1 city, len(city) from station order by len(city) DESC, city ASC;
+Ans - 11 ---> select distinct city from station_table where city like "A%" or city like "E%" or city like "I%" or city like "O%" or city like "U%";
+
+Ans - 12 ---> select distinct city from station_table where city like "%a" or city like "%e" or city like "%i" or city like "%o" or city like "%u";
+
+Ans - 13 ---> select distinct city from station_table where city not like "A%" or city not like "E%" or city not like "I%" or city not like "O%" or city not like "U%";
+
+Ans - 14 ---> select distinct city from station_table where city not like "%a" or city not like "%e" or city not like "%i" or city not like "%o" or city not like "%u";
+
+Ans - 15 ---> select distinct city from station_table where city not like "A%" or city not like "E%" or city not like "I%" or city not like "O%" or city not like "U%"
+            or select distinct city from station_table where city not like "%a" or city not like "%e" or city not like "%i" or city not like "%o" or city not like "%u";
+            
+Ans - 16 ---> select distinct city from station_table where city not like "A%" and city not like "E%" and city not like "I%" and city not like "O%" and city not like                   "U%" and city not like "%a" and city not like "%e" and city not like "%i" and city not like "%o" and city not like "%u";
+
+Ans - 17 ---> select P.product_name from Product as P inner join Sale as S on P.product_id = S.product_id GROUP BY S.product_id HAVING MIN(sale_date) >= '2019-01-01' AND               MAX(sale_date) <= '2019-03-31';
+
+Ans - 18 ---> select author_id from views groupby author_id having author_id = viewed_id;
+              select distinct author_id from views where author_id = viewed-id;
+Ans - 19 ---> select ifnull(
+    round(
+        (select count(*) from Delivery where order_date = customer_pref_delivery_date
+            and (customer_id, order_date) in (
+             select a.customer_id, order_date from Delivery a
+                where order_date = (
+                    select min(order_date) from Delivery b
+                        where a.customer_id = b.customer_id
+                )
+            )
+        )
+        /
+        (select count(distinct customer_id)) * 100
+        , 2)
+    , 0
+) as immediate_percentage from Delivery;
+
+Ans - 20 ---> select distinct ad_id, ifnull(
+        round(
+            sum(action = 'Clicked') / (sum(action = 'Clicked') + sum(action = 'Viewed')) * 100, 2
+        ) , 0
+    ) as ctr
+    from Ads
+    group by ad_id
+    order by ctr desc, ad_id;
+    
+Ans - 21 ---> select
+	            employee_id,
+	            count(team_size) over (Partition By team_id) as team_size from
+              employee;
+
+Ans - 22---> select 
+	           c.country_name,
+             case when avg(w.weather_state) <= 15 then "Cold"
+                 when avg(w.weather_state)  >= 25 then "Hot"
+                 else "Warm"
+            end as weather_type
+
+            from countries as c
+            inner join weather as w on c.country_id = w.country_id
+            where w.day between 2019-11-01 and 2019-11-30
+            group by w.country_id
+
+Ans-23---> select product_id, ifnull(round(sum(prices_sum) / sum(units), 2), 0) as average_price
+           from (
+                     select p.product_id as product_id, units, price * units as prices_sum
+                     from Prices p left join UnitsSold u
+                     on p.product_id = u.product_id and purchase_date between start_date and end_date
+            ) as temp
+            group by product_id;
+
+Ans-24---> select distinct player_id, event_date as first_login
+	         from activity
+	         order by player_id, event_date limit 1
+
+           or
+           
+          SELECT
+          player_id,
+          device_id
+          FROM Activity
+          WHERE (player_id, event_date) IN (SELECT
+                                        player_id,
+                                        MIN(event_date) 
+                                    FROM Activity 
+                                    GROUP BY player_id)
+
+25.select 
+	player_id,
+	device_id
+   from (select player_id, min(event_date) as login_date from activity group by player_id) as tmp
+where event_date = login_date
+
+SELECT
+	player_id,
+	device_id
+FROM (
+	 SELECT 
+	 	player_id,
+	 	device_id,
+	 	event_date,
+	 	MIN(event_date) OVER(PARTITION BY player_id ORDER BY event_date) as first_login
+	 FROM Activity
+ 	) t1
+ WHERE event_date = first_login
+
+26. select 
+	p.product_name, 
+	tmp.units
+    from (
+    select 
+	product_id, 
+	sum(unit) as unit 
+    from orders 
+    where order_date between 2020-02-01 and 2020-02-28 
+    group by product_id 
+    having sum(unit) >= 100 
+	) as tmp
+    inner join products as p 
+    on tmp.product_id = p.product_id
+
+27.select * from Users
+    where mail regexp '^[a-zA-Z]+[a-zA-Z0-9_\\./\\-]{0,}@leetcode.com$'
+    order by user_id;
+
+28.select customer_id, name
+from
+(
+    select o.customer_id, c.name,
+        sum(case when left(o.order_date,7) = '2020-06' then p.price * o.quantity end) as JuneSpend,
+        sum(case when left(o.order_date,7) = '2020-07' then p.price * o.quantity end) as JulySpend
+    from Orders o
+    left join Customers c on o.customer_id = c.customer_id
+    left join Product p on o.product_id = p.product_id
+    group by o.customer_id
+    having JuneSpend >= 100 and JulySpend >= 100
+) as temp
+
+29.select c.title
+from tvprogram t
+inner join content c
+on t.content_id = c.content_id
+where c.kids_content = 'Y' and c.content_type = 'Movies' and left(t.program_date,7) = '2020-06'
+
+30.select Queries.id, Queries.year, ifnull(npv, 0) as npv
+    from Queries left join NPV
+    on Queries.id = NPV.id and Queries.year = NPV.year
+    order by Queries.id;
+
+31. duplicate question
+
+32.select ifnull(unique_id, null) as uniqueID, Employees.name
+	from Employees left join EmployeeUNI
+	on Employees.id = EmployeeUNI.id;
+
+33. select u.name, ifnull(sum(r.distance),0) as travelled_distance
+	from users as u left join rides as r
+	on u.id = r.user_id
+	group by u.name
+	order by travelled_distance desc, u.name asc;
+
+34. select p.product_name, sum(o.units) as total
+	from orders as o left join products as p
+	on o.product_id = p.product_id
+	where o.order_date like "2020-02"
+	group by o.product_id
+	having total >= 100;
+
+35. (select u.name
+      from users u
+      join moviesRating m on u.user_id = m.user_id
+      group by m.user_id
+      order by count(*) desc, u.name asc
+      limit 1
+)
+union
+(
+      select m.monvie_name
+      from movieRating mr
+      inner join movies m on mr.movie_id = m.movie_id
+     where left(created_at, 7) = "2020-02"
+     group by mr.movie_id 
+     order by avr(rating) desc, m.movie_name asc
+     limit 1
+ )    
+
+36. 
+select  u.name, ifnull(sum(r.distance),0) as distance-travelled
+from rides r
+right join user u on r.user_id = u.user_id
+group by r.user_id
+order by distance_traveled desc, u.name asc
+
+37.
+select ifnull(eu.unique_id,null) as unique_id, e.name
+from employee e
+left join employeeUNI eu on e.id = eu.id
+
+38.
+select id, name
+from student
+where department_id not in (select id from department)

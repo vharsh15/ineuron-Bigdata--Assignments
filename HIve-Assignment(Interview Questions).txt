@@ -1,0 +1,316 @@
+Q.1 What is the definition of Hive? What is the present version of Hive?
+Ans: Hive is dataware housing system on top of hadoop to use for analyze the data with the help of sql like queries i.e hiveQL.
+
+Q.2 Is Hive suitable to be used for OLTP systems? Why?
+Ans: Hive can not suitable for OLTP because it used for analyse the data that means its work is just to fetch the data from database not dumping, update, delete like of operations.
+
+Q.3 How is HIVE different from RDBMS? Does hive support ACID 
+transactions. If not then give the proper reason.
+Ans: Hive is on top of hadoop so it uses columnar format for reading the data such that queries execution time is efficiently.  No hive does not ACID transactions because it uses for analyse the data from warehouse.
+
+Q.4 Explain the hive architecture and the different components of a Hive architecture?
+Ans: Hive Clients : Thrift client, JDBC and ODBC clients,
+     Hive Components : Compiler, Metastore, Hive server and hive       driver
+      
+Q.5 Mention what Hive query processor does? And Mention what are the components of a Hive query processor?
+Ans : hive query processor or compiler convert the hql into map reduce task called as DAG. And this DAG have all the procedural steps to exhibit or to execute the sub task in proper way.
+
+Q.6 What are the three different modes in which we can operate Hive?
+Ans: 
+
+Q.7 Features and Limitations of Hive.
+Ans: Features : Analyse the big data using HQl queries,
+		Easily run the adhoc queries.
+     Limitations: hive only can perform on batch time processing not for real time processing the data
+
+Q.8 How to create a Database in HIVE?
+Ans: syntax: create database Aman;
+
+Q.9 How to create a table in HIVE?
+Ans: After create the database above question now lets write the syntax for creating the table :
+use Aman;
+create table aman_table(
+year year,
+progress string,
+total_projects int,
+satisfaction string
+)
+row format delimited
+field terminated by ",";
+
+Q.10 What do you mean by describe and describe extended and describe formatted with respect to database and table.
+Ans: describe formatted database_name gives you total information of created database which reside into hdfs metastore and have all  kind of information regarding input and output file format for map reduce task and partition or not, no. of bucket, etc.
+
+Q.11 How to skip header rows from a table in Hive?
+Ans: "skip.header.line.count" = "1";
+
+Q.12 What is a hive operator? What are the different types of hive operators?
+Ans:Hive operators are used for mathematical operations on operands. It returns specific value as per the logic applied.
+
+Relational Operators
+Arithmetic Operators
+Logical Operators
+String Operators
+Operators on Complex Types
+
+Q.13 Explain about the Hive Built-In Functions?
+Ans:1.Collection Functions
+2.Hive Date Functions
+3.Mathematical Finctions
+4.Conditional Functions
+5.Hive String functions
+
+Q.14  Write hive DDL and DML commands.
+Ans: DDL : CREATE
+SHOW
+DESCRIBE
+USE
+DROP
+ALTER
+TRUNCATE
+
+DML:LOAD
+SELECT
+INSERT
+DELETE
+UPDATE
+EXPORT
+IMPORT
+
+Q.15 Explain about SORT BY, ORDER BY, DISTRIBUTE BY and 
+CLUSTER BY in Hive.
+Ans: sort by :
+
+Q.16 .Difference between "Internal Table" and "External Table" and Mention when to choose “Internal Table” and “External Table” in Hive?
+Ans: Internal Table : Also know as manageable table, so that data can be stored from local or hadoop local into hive data warehouse path inside the hadoop, 
+if drop operation perform on this data then whole schema and data will be deleted from data warehouse.
+
+External Table : In this table, only schema will get deleted if drop operation perform on the table because we just referred the data to this table not copy into it.
+
+Q.17 Where does the data of a Hive table get stored?
+Ans: All the table data get stored in hadoop data node and path to where data is residing : /user/hive/warehouse/database_name/table_name
+
+Q.18 Is it possible to change the default location of a managed table?
+Ans:Yes, by using LOCATION keyword.
+
+Q.19 What is a metastore in Hive? What is the default database provided by Apache Hive for metastore?
+Ans: Metastore is inbulid small database know as derby database which store the file location, table or table schemas, column data type information inside it and how to read and write the data.
+
+Q.20 Why does Hive not store metadata information in HDFS?
+Ans:Let’s first learn what is metadata, in simple terms it is “ data about data”, with help of which Hive manages all the table and relation between them. Hence, metastore needs to updated with any change in the structure of tables. Since HDFS is not meant for regular updates hence we use RDBMS, as it provides low latency and random updates.
+
+Q.21 .What is a partition in Hive? And Why do we perform partitioning in Hive?
+Ans: Partition in Hive means to divide the data into smaller chunks on the basis of column values.
+To reduce the query execution time.
+To scan the data in less time.
+
+Q.22 .What is the difference between dynamic partitioning and static partitioning?
+Ans:Dynamic Partittioning: In this type of partitioning hive automatically partitions the data on the basis of columns values (when you don't know the all value inside the column)after give the command of Dynamic partitioning at the time of loading the data into table.
+
+Static Partitioning : In this type of partitioning, we will give the columns value explicitly at the time of loading and that perticular directory will get created inside the hdfs.
+
+Q.23 How do you check if a particular partition exists?
+Ans:SHOW PARTITIONS table_name 
+
+    PARTITION(partitioned_column=’partition_value’)
+
+Q.24 How can you stop a partition from being queried?
+Ans: hive.mapred.mode=strict
+
+Q.25 Why do we need buckets? How Hive distributes the rows into buckets?
+Ans: The bucketing in Hive is a data organizing technique. It is similar to partitioning in Hive with an added functionality that it divides large datasets into more manageable parts known as buckets. So, we can use bucketing in Hive when the implementation of partitioning becomes difficult.
+--The concept of bucketing is based on the hashing technique.
+--Here, modules of current column value and the number of required buckets is calculated (let say, F(x) % 3).
+--Now, based on the resulted value, the data is stored into the corresponding bucket.
+
+Q.26 In Hive, how can you enable buckets?
+Ans: set hive. enforce. bucketing = true;
+
+Q.27 How does bucketing help in the faster execution of queries?
+Ans: Bucketing improves performance by shuffling and sorting data prior to downstream operations such as table joins. The tradeoff is the initial overhead due to shuffling and sorting, but for certain data transformations, this technique can improve performance by avoiding later shuffling and sorting.
+
+Q.28 How to optimise Hive Performance? Explain in very detail.
+Ans:a. Tez-Execution Engine in Hive
+Tez Execution Engine – Hive Optimization Techniques, to increase the Hive performance of our hive query by using our execution engine as Tez. On defining Tez, it is a new application framework built on Hadoop Yarn.
+
+That executes complex-directed acyclic graphs of general data processing tasks. However, we can consider it to be a much more flexible and powerful successor to the map-reduce framework.
+
+In addition, to write native YARN applications on Hadoop that bridges the spectrum of interactive and batch workloads Tez offers an API framework to developers. To be more specific,  to work with petabytes of data over thousands of nodes it allows those data access applications.
+AD
+
+b. Usage of Suitable File Format in Hive
+ORCFILE File Formate – Hive Optimization Techniques, if we use appropriate file format on the basis of data. It will drastically increase our query performance.
+
+Basically, for increasing your query performance ORC file format is best suitable. Here, ORC refers to Optimized Row Columnar. That implies we can store data in an optimized way than the other file formats.
+
+To be more specific, ORC reduces the size of the original data up to 75%. Hence,  data processing speed also increases. On comparing to Text, Sequence and RC file formats, ORC shows better performance.
+
+Basically, it contains rows data in groups. Such as Stripes along with a file footer.  Therefore, we can say when Hive is processing the data ORC format improves the performance.
+AD
+
+c. Hive Partitioning 
+Hive Partition – Hive Optimization Techniques, Hive reads all the data in the directory Without partitioning. Further, it applies the query filters on it.  Since all data has to be read this is a slow as well as expensive.
+
+Also, users need to filter the data on specific column values frequently. Although, users need to understand the domain of the data on which they are doing analysis, to apply the partitioning in the Hive.
+
+Basically, by Partitioning all the entries for the various columns of the dataset are segregated and stored in their respective partition.
+
+Hence, While we write the query to fetch the values from the table, only the required partitions of the table are queried. Thus it reduces the time taken by the query to yield the result.
+
+d. Bucketing in Hive
+Bucketing in Hive – Hive Optimization Techniques, let’s suppose a scenario. At times, there is a huge dataset available. However, after partitioning on a particular field or fields, the partitioned file size doesn’t match with the actual expectation and remains huge.
+
+Still, we want to manage the partition results into different parts. Thus, to solve this issue of partitioning, Hive offers Bucketing concept. Basically,  that allows the user to divide table data sets into more manageable parts.
+
+Hence, to maintain parts that are more manageable we can use Bucketing. Through it, the user can set the size of the manageable parts or Buckets too.
+
+e. Vectorization In Hive
+Vectorization In Hive – Hive Optimization Techniques, to improve the performance of operations we use Vectorized query execution. Here operations refer to scans, aggregations, filters, and joins. It happens by performing them in batches of 1024 rows at once instead of single row each time.
+
+However, this feature is introduced in Hive 0.13. It significantly improves query execution time, and is easily enabled with two parameters settings:
+
+set hive.vectorized.execution = true
+
+set hive.vectorized.execution.enabled = true
+
+f. Cost-Based Optimization in Hive (CBO)
+Cost-Based Optimization in Hive – Hive Optimization Techniques, before submitting for final execution Hive optimizes each Query’s logical and physical execution plan. Although, until now these optimizations are not based on the cost of the query.
+
+However, CBO, performs, further optimizations based on query cost in a recent addition to Hive. That results in potentially different decisions: how to order joins, which type of join to perform, the degree of parallelism and others.
+
+To use CBO, set the following parameters at the beginning of your query:
+
+set hive.cbo.enable=true;
+
+set hive.compute.query.using.stats=true;
+
+set hive.stats.fetch.column.stats=true;
+
+set hive.stats.fetch.partition.stats=true;
+Then, prepare the data for CBO by running Hive’s “analyze” command to collect various statistics on the tables for which we want to use CBO.
+AD
+
+g. Hive Indexing 
+Hive Index – Hive Optimization Techniques, one of the best ways is Indexing. To increase your query performance indexing will definitely help. Basically, for the original table use of indexing will create a separate called index table which acts as a reference.
+
+As we know, there are many numbers of rows and columns, in a Hive table. Basically, it will take a large amount of time if we want to perform queries only on some columns without indexing. Because queries will be executed on all the columns present in the table.
+
+Moreover,  there is no need for the query to scan all the rows in the table while we perform a query on a table that has an index, it turned out as the major advantage of using indexing. Further, it checks the index first and then goes to the particular column and performs the operation.
+
+Hence, maintaining indexes will be easier for Hive query to look into the indexes first and then perform the needed operations within less amount of time. Well, time is the only factor that everyone focuses on, eventually.
+
+This was all about Hive Optimization Techniques Tutorial. Hope you like our explanation of Hive Performance Tuning.
+
+So, this was all in Hive Query Optimization Techniques. Hope you like our explanation.
+
+Q.29 What is the use of Hcatalog?
+Ans:HCatalog is a tool that allows you to access Hive metastore tables within Pig, Spark SQL, and/or custom MapReduce applications
+
+Q.30 Explain about the different types of join in Hive.
+Ans:The HiveQL Join clause is used to combine the data of two or more tables based on a related column between them. The various type of HiveQL joins are: -
+
+Inner Join
+Left Outer Join
+Right Outer Join
+Full Outer Join
+
+Inner Join in HiveQL
+The HiveQL inner join is used to return the rows of multiple tables where the join condition satisfies. In other words, the join criteria find the match records in every table being joined.
+
+Left Outer Join in HiveQL
+The HiveQL left outer join returns all the records from the left (first) table and only that records from the right (second) table where join criteria find the match.
+
+Right Outer Join in HiveQL
+The HiveQL right outer join returns all the records from the right (second) table and only that records from the left (first) table where join criteria find the match.
+
+Full Outer Join
+The HiveQL full outer join returns all the records from both the tables. It assigns Null for missing records in either table.
+
+Q.31 31.Is it possible to create a Cartesian join between 2 tables, using Hive?
+Ans: Yes, it is possible to create a Cartesian join between 2 tables in Hive using the CROSS JOIN keyword.
+
+SELECT *
+FROM table1
+CROSS JOIN table2;
+
+Q.32 Explain the SMB Join in Hive?
+Ans:The SMB (Sort Merge Bucket) Join is a join algorithm available in Hive that uses map-reduce to join large datasets. It is particularly useful for joining two large tables on a common key, as it can efficiently handle large amounts of data and distribute the workload across multiple nodes in a Hadoop cluster.
+
+The SMB join algorithm consists of two stages:
+
+Sort: The data in both tables is sorted by the join key, which allows Hive to efficiently match the rows that have the same key during the merge stage.
+
+Merge: The sorted data is merged by comparing the keys from both tables. When a match is found, the corresponding rows are joined and returned as a result.
+
+SMB Join has several benefits over other join algorithms in Hive:
+
+It is optimized for large datasets and can handle joins between tables with millions or billions of rows.
+
+It is a parallelizable algorithm and can distribute the workload across multiple nodes in a Hadoop cluster, which makes it faster than other join algorithms.
+
+It uses a small amount of memory because it sorts and merges the data in chunks, which reduces the risk of out-of-memory errors.
+
+However, SMB Join also has some limitations:
+
+It requires that both tables have the same number of buckets and are bucketed on the same join key.
+
+It may not perform as well for joins on non-equality predicates or complex expressions.
+
+It can be slower than other join algorithms for small datasets.
+
+Overall, the SMB Join algorithm is a powerful tool for joining large datasets in Hive, but it should be used with care and its limitations should be understood before use.
+
+Q.33 What is the difference between order by and sort by which one we should use?
+Ans: ORDER BY is a clause that is used to sort the result set of a query based on one or more columns. It sorts the entire result set, and returns the sorted data as the final output. ORDER BY is a mandatory clause when you want to sort the data in a specific order, and it guarantees that the data will be sorted correctly.
+
+SORT BY, on the other hand, is used to sort the data within each reducer task after a MapReduce job has been completed. It only sorts the data within each reducer task and does not guarantee that the entire dataset will be sorted. SORT BY is an optional clause that can be used to improve the performance of a query by reducing the amount of data that needs to be sorted, but it should not be used when you require a specific sort order.
+
+In summary, you should use ORDER BY when you require a specific sort order and want to guarantee that the entire result set will be sorted correctly. You should use SORT BY when you want to improve the performance of a query by sorting the data within each reducer task, but do not require a specific sort order.
+
+It's important to note that using SORT BY instead of ORDER BY can lead to incorrect results if the data is not sorted correctly, so you should always use the appropriate clause based on your requirements.
+
+Q.34 What is the usefulness of the DISTRIBUTED BY clause in Hive?
+Ans: The DISTRIBUTED BY clause in Hive is used to specify how the data in a table should be distributed across the nodes in a Hadoop cluster. When a table is created, the data is partitioned and distributed across the nodes in the cluster based on the column or columns specified in the DISTRIBUTED BY clause.
+
+The usefulness of the DISTRIBUTED BY clause lies in its ability to improve the performance of queries on large datasets by ensuring that related data is stored together on the same node. This reduces the amount of data that needs to be moved across the network during query execution, which can significantly improve query performance.
+
+Q.35 How does data transfer happen from HDFS to Hive? 
+Ans: When data is transferred from HDFS to Hive, Hive uses a process called data loading to read data from the HDFS and load it into Hive tables.
+
+The data loading process in Hive typically involves the following steps:
+
+Create an external table: In Hive, an external table is created to define the schema and metadata of the data that will be loaded from HDFS. The external table contains information about the location of the data in HDFS, as well as the format of the data.
+
+Define the data format: Hive supports various data formats for reading data from HDFS, including CSV, JSON, and Parquet. The data format is specified when the external table is created.
+
+Load the data: After the external table has been created, the data can be loaded into the table using the LOAD DATA statement. The LOAD DATA statement specifies the location of the data in HDFS and instructs Hive to load the data into the external table.
+
+Process the data: Once the data has been loaded into the external table, it can be queried and processed using HiveQL statements. HiveQL is similar to SQL and allows you to write queries to extract, transform, and analyze the data stored in the external table.
+
+During the data loading process, Hive uses a component called the Hive Metastore to manage the metadata for the tables and partitions. The Hive Metastore stores information about the external tables, including the schema, location, and format of the data. The Hive Metastore also manages the mapping between the tables and the underlying data in HDFS, allowing Hive to seamlessly read and write data between the two systems.
+
+Q.36 Wherever (Different Directory) I run the hive query, it creates a new metastore_db, please explain the reason for it?
+Ans: The reason for Hive creating a new metastore_db directory whenever you run a query in a different directory is because the metastore_db directory contains the metadata for the Hive metastore, which is used to manage the schema and metadata of the tables in Hive.
+
+Each instance of Hive has its own metastore, which is used to store the metadata for the tables and partitions in that instance. When you run a query in a different directory, Hive creates a new metastore_db directory in that directory to store the metadata for the tables and partitions that are created or used in that directory.
+
+This behavior ensures that the metadata for the tables and partitions is stored separately for each directory, which can help to prevent conflicts and ensure that each directory has its own separate metadata. It also allows you to easily move or copy a directory to a different location, without having to worry about conflicts or metadata issues.
+
+However, it's important to note that having multiple metastore_db directories can also lead to issues with metadata management and consistency, especially if you have tables or partitions that are used in multiple directories. In this case, it's often better to use a shared metastore that can be accessed by all instances of Hive, to ensure that the metadata is consistent and accurate across all directories.
+
+Q.37 What will happen in case you have not issued the command: ‘SET hive.enforce.bucketing=true;’ before bucketing a table in Hive?
+Ans: If you have not issued the command SET hive.enforce.bucketing=true; before bucketing a table in Hive, then Hive will still create a table with the specified number of buckets, but it will not enforce the bucketing constraint.
+
+Without the hive.enforce.bucketing setting enabled, you can still create a bucketed table by specifying the bucketing columns in the CLUSTERED BY clause of the CREATE TABLE statement. Hive will then partition the data based on the bucketing columns and distribute the data evenly across the specified number of buckets. However, Hive will not check if the data is actually distributed across the buckets as per the bucketing constraint.
+
+Enforcing bucketing in Hive is important because it ensures that the data is evenly distributed across the buckets based on the hash of the bucketing columns. If you do not enforce bucketing, it is possible that the data may not be evenly distributed across the buckets, which can lead to performance issues when querying the table.
+
+Therefore, it is recommended to always set hive.enforce.bucketing=true; before creating a bucketed table in Hive to ensure that the bucketing constraint is enforced and the data is evenly distributed across the buckets.
+
+Q.38 Can a table be renamed in Hive?
+Ans:Yes, a table can be renamed in Hive using the ALTER TABLE statement. The ALTER TABLE statement is used to modify the properties and metadata of a table in Hive, including changing the name of the table.
+
+To rename a table in Hive, you can use the following syntax:
+ALTER TABLE <existing_table_name> RENAME TO <new_table_name>;
+
+Q.39
